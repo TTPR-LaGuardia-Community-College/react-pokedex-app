@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
   "name": "my-pokedex",
+=======
+  "name": "react-pokedex-app",
+>>>>>>> f1c1dc72d73aa6e18a1d53834269a92c6bab976d
   "private": true,
   "version": "0.0.0",
   "type": "module",
