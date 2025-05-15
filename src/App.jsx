@@ -33,6 +33,10 @@ function App() {
       <div className="pokemon-list">
         {pokemonList.map((pokemon, index) => (
           <div key={index} className="pokemon-card">
+            <img
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`}
+              alt={pokemon.name}
+            />
             <p>{pokemon.name}</p>
           </div>
         ))}
