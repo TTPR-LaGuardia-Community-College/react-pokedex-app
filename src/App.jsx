@@ -1,35 +1,44 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.jsx
+import { useState, useEffect } from 'react';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [pokemonList, setPokemonList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    async function fetchPokemon() {
+      try {
+        const res = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+        if (!res.ok) throw new Error('Failed to fetch Pokémon.');
+        const data = await res.json();
+        setPokemonList(data.results);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchPokemon();
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="app">
+      <h1>NYC Pokédex 🗽</h1>
+      <div className="pokemon-list">
+        {pokemonList.map((pokemon, index) => (
+          <div key={index} className="pokemon-card">
+            <p>{pokemon.name}</p>
+          </div>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    </div>
+  );
 }
 
-export default App
+export default App;
