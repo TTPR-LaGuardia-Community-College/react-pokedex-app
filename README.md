@@ -1,3 +1,58 @@
+README PART UPDATED
+
+How to run it
+Clone this repo
+
+git clone https://github.com/sinemkilicdere/react-pokedex-app.git
+Go into the project folder
+
+cd react-pokedex-app
+Install the dependencies
+
+npm install
+Start the app
+
+npm run dev
+Open it in browser
+Visit http://localhost:5173
+
+
+What it does
+Starts with a default Pokemon ID (0)
+
+When you click the button, it increases the ID by 1
+
+Then it fetches that Pokemon’s data using fetch() and shows the name
+
+Uses useEffect to run the API call whenever the ID changes
+
+react-pokedex-app/
+├─ public/
+│   └─ …
+├─ src/
+│   ├─ components/
+│   ├─ hooks/         
+│   ├─ App.jsx
+│   ├─ index.css
+│   └─ index.jsx
+├─ README.md           
+├─ REFLECTION.md       
+└─ package.json
+
+
+src/
+├── App.jsx          
+├── main.jsx      
+├── styles/          
+├── components/      
+├── hooks/          
+
+Why I made this
+This is part of a React + Vite learning lab. The goal was to get more comfortable with using useState, useEffect, and making API calls inside a component.
+
+
+
+
 # 🏙️ React Lab – *Build Your Own Pokédex*  
 
 Pair‑programming‑friendly (1 – 2 students)  

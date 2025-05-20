@@ -40,3 +40,17 @@
 .read-the-docs {
   color: #888;
 }
+.pokemon-card {
+  margin: 1rem auto;
+  padding: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 4rem;
+  background-color: white;
+  max-width: 300px;
+}
+
+.pokemon-card img {
+  width: 120px;
+  height: 120px;
+}
+
