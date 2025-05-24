@@ -3,6 +3,7 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #7108f0;
 }
 
 .logo {
@@ -40,3 +41,33 @@
 .read-the-docs {
   color: #888;
 }
+
+/*Css for the pokedex*/
+body {
+  font-family: 'Urbanist', sans-serif;
+  background: #000000;
+}
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+.pokemon-card {
+  background: #0088ff;
+  border: 2px solid #ccc;
+  padding: 0.5rem;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.modal {
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  background: white;
+  padding: 2rem;
+  z-index: 1000;
+  border: 2px solid #000;
+  border-radius: 10px;
+}
+
