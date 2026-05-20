@@ -1,59 +1,96 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [data, setData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [pokemon, setPokemon] = useState([])
+  const [details, setDetails] = useState(null)
 
   useEffect(() => {
-    const url = `https://pokeapi.co/api/v2/pokemon/${count}`;
+    async function fetchPokemon() {
+      try {
+        setLoading(true)
 
-    const fetchPokemon = () => {
-      fetch(url)
-      .then((response) => {
-        if(!response.ok) {
-          throw new Error(`This aint working b/c ${response.status}`);
+        const res = await fetch(
+          "https://pokeapi.co/api/v2/pokemon?limit=151"
+        )
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch Pokemon!")
         }
-        return response.json();
-      })
-      .then((json) => {
-        console.log(json.species.name);
-        // Maybe you should change the state like this:
-        setData(json);
-      })
-      .catch((error)=> {
-        console.error(error.message);
-      })
-    }
-    fetchPokemon();
 
-  }, [count])
+        const data = await res.json()
+
+        setPokemon(data.results)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPokemon()
+  }, [])
+
+  async function fetchDetails(url) {
+    try {
+      setLoading(true)
+
+      const res = await fetch(url)
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch Pokemon details!")
+      }
+
+      const info = await res.json()
+
+      setDetails(info)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <>
+      <h1>PokeDex</h1>
+
+      {loading && <p>Loading...</p>}
+      {error && <p>{error}</p>}
+
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {pokemon.map((poke, index) => (
+          <button
+            key={index}
+            onClick={() => fetchDetails(poke.url)}
+          >
+            {poke.name}
+          </button>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          {data ? `Pokemon: ${data.species.name}` : 'Loading...'}
-          {/* Edit <code>src/App.jsx</code> and save to test HMR */}
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      {details && (
+        <div style={{ marginTop: "20px" }}>
+          <h2>{details.name}</h2>
+
+          <img
+            src={details.sprites.front_default}
+            alt={details.name}
+          />
+
+          <p>Height: {details.height}</p>
+          <p>Weight: {details.weight}</p>
+
+          <p>
+            Types:
+            {details.types.map((type, index) => (
+              <span key={index}> {type.type.name}</span>
+            ))}
+          </p>
+        </div>
+      )}
     </>
   )
 }
