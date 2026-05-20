@@ -1,61 +1,105 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from "react";
+import PokemonCard from "./components/PokemonCard";
+import PokemonDetail from "./components/PokemonDetail";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [data, setData] = useState(null)
+  const [pokemonList, setPokemonList] = useState([]);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const url = `https://pokeapi.co/api/v2/pokemon/${count}`;
+    async function fetchPokemonList() {
+      try {
+        setLoading(true);
+        setError("");
 
-    const fetchPokemon = () => {
-      fetch(url)
-      .then((response) => {
-        if(!response.ok) {
-          throw new Error(`This aint working b/c ${response.status}`);
+        const response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=151");
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch Pokémon data.");
         }
-        return response.json();
-      })
-      .then((json) => {
-        console.log(json.species.name);
-        // Maybe you should change the state like this:
-        setData(json);
-      })
-      .catch((error)=> {
-        console.error(error.message);
-      })
-    }
-    fetchPokemon();
 
-  }, [count])
+        const data = await response.json();
+        setPokemonList(data.results);
+      } catch (err) {
+        setError("Something went wrong. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchPokemonList();
+  }, []);
+
+  async function handlePokemonClick(pokemon) {
+    try {
+      setDetailLoading(true);
+      setError("");
+
+      const response = await fetch(pokemon.url);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch Pokémon details.");
+      }
+
+      const data = await response.json();
+      setSelectedPokemon(data);
+    } catch (err) {
+      setError("Could not load Pokémon details.");
+    } finally {
+      setDetailLoading(false);
+    }
+  }
+
+  const filteredPokemon = pokemonList.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          {data ? `Pokemon: ${data.species.name}` : 'Loading...'}
-          {/* Edit <code>src/App.jsx</code> and save to test HMR */}
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <main className="app">
+      <header className="hero">
+        <h1>NYC Pokédex 🗽⚡</h1>
+        <p>Catch the first 151 Pokémon, one card at a time.</p>
+
+        <input
+          type="text"
+          placeholder="Search Pokémon..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="search-input"
+        />
+      </header>
+
+      {loading && <p className="message">Loading Pokémon...</p>}
+
+      {error && <p className="error">{error}</p>}
+
+      {!loading && !error && (
+        <section className="pokemon-grid">
+          {filteredPokemon.map((pokemon, index) => (
+            <PokemonCard
+              key={pokemon.name}
+              pokemon={pokemon}
+              number={index + 1}
+              onClick={() => handlePokemonClick(pokemon)}
+            />
+          ))}
+        </section>
+      )}
+
+      {detailLoading && <p className="message">Loading details...</p>}
+
+      {selectedPokemon && (
+        <PokemonDetail
+          pokemon={selectedPokemon}
+          onClose={() => setSelectedPokemon(null)}
+        />
+      )}
+    </main>
+  );
 }
 
-export default App
+export default App;
