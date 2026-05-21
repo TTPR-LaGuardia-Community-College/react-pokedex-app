@@ -1,61 +1,72 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [data, setData] = useState(null)
+  const [pokemon, setPokemon] = useState([]);
+  const [selectedPokemon, setSelectedPokemon] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const url = `https://pokeapi.co/api/v2/pokemon/${count}`;
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch");
+        return res.json();
+      })
+      .then((data) => {
+        const detailFetches = data.results.map((p) =>
+          fetch(p.url).then((r) => r.json())
+        );
+        return Promise.all(detailFetches);
+      })
+      .then((details) => {
+        setPokemon(details);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
 
-    const fetchPokemon = () => {
-      fetch(url)
-      .then((response) => {
-        if(!response.ok) {
-          throw new Error(`This aint working b/c ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((json) => {
-        console.log(json.species.name);
-        // Maybe you should change the state like this:
-        setData(json);
-      })
-      .catch((error)=> {
-        console.error(error.message);
-      })
-    }
-    fetchPokemon();
-
-  }, [count])
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>{error}</h1>;
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container">
+      <h1>🗽 NYC Pokédex ⚡</h1>
+
+      <div className="grid">
+        {pokemon.map((poke) => (
+          <div
+            key={poke.name}
+            className="card"
+            onClick={() => setSelectedPokemon(poke)}
+          >
+            <img src={poke.sprites.front_default} alt={poke.name} />
+            <p>{poke.name}</p>
+          </div>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          {data ? `Pokemon: ${data.species.name}` : 'Loading...'}
-          {/* Edit <code>src/App.jsx</code> and save to test HMR */}
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+      {selectedPokemon && (
+  <>
+    <div className="overlay" onClick={() => setSelectedPokemon(null)} />
+    <div className="details">
+      <h2>{selectedPokemon.name}</h2>
+      <img
+        className="pokemon-img"
+        src={selectedPokemon.sprites.front_default}
+        alt={selectedPokemon.name}
+      />
+      <p>Height: {selectedPokemon.height}</p>
+      <p>Weight: {selectedPokemon.weight}</p>
+      <button onClick={() => setSelectedPokemon(null)}>Close</button>
+    </div>
+  </>
+)}
+    </div>
+  );
 }
 
 export default App
