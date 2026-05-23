@@ -1,60 +1,52 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useEffect, useContext } from 'react'
+import PokemonCard from './components/PokemonCard.jsx'
+import PokemonControls from './components/PokemonControls.jsx'
+import { CounterContext } from './context/CounterContext';
+
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [data, setData] = useState(null)
-
+  const pokemonId = useContext(CounterContext);
+  const [pokemon, setPokemon] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
+  
   useEffect(() => {
-    const url = `https://pokeapi.co/api/v2/pokemon/${count}`;
+    async function fetchPokemon() {
+      try {
+        setLoading(true)
+        setError(null)
 
-    const fetchPokemon = () => {
-      fetch(url)
-      .then((response) => {
-        if(!response.ok) {
-          throw new Error(`This aint working b/c ${response.status}`);
+        const response = await fetch(
+          `https://pokeapi.co/api/v2/pokemon/${pokemonId.count}`
+        )
+
+        if (!response.ok) {
+          throw new Error('Pokemon not found')
         }
-        return response.json();
-      })
-      .then((json) => {
-        console.log(json.species.name);
-        // Maybe you should change the state like this:
-        setData(json);
-      })
-      .catch((error)=> {
-        console.error(error.message);
-      })
-    }
-    fetchPokemon();
 
-  }, [count])
+        const data = await response.json()
+        console.log(data)
+        setPokemon(data)
+
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchPokemon()
+  }, [pokemonId.count])
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          {data ? `Pokemon: ${data.species.name}` : 'Loading...'}
-          {/* Edit <code>src/App.jsx</code> and save to test HMR */}
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div>
+      {loading && <p>Loading...</p>}
+
+      {error && <p>{error}</p>}
+
+      {pokemon && <PokemonCard pokemon={pokemon} />}
+      <PokemonControls />
+    </div>
   )
 }
 
