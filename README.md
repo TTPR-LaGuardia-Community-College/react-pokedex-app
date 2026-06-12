@@ -1,129 +1,236 @@
-# 🏙️ React Lab – *Build Your Own Pokédex*  
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Express](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-Pair‑programming‑friendly (1 – 2 students)  
-> Master `useEffect`, Promises, & real‑world API data while giving your Pokédex a **NYC‑flavored** vibe.
+![Jennifer's Pokédex Banner](./client/public/Pokedex-Banner.png)
+# ⚡ Jennifer’s Pokédex
 
----
+A fullstack Pokémon analyzer platform inspired by cyberpunk aesthetics, NYC subway graffiti culture, and futuristic Pokédex interfaces.
 
-## 📌 Objectives
-1. **Spin up** a fresh React app with **Vite**.  
-2. **Fetch & display** Pokémon data from the [PokeAPI](https://pokeapi.co/) using `useEffect`.  
-3. **Handle** loading and error states with clean Promise logic (`async/await` or `.then/.catch`).  
-4. **Design & style** your UI from scratch (JSX + CSS / CSS Modules – no copy‑pasta).  
-5. **Reflect** on your process, struggles, and wins in `REFLECTION.md`.
+Built with React, PostgreSQL, Express, PokéAPI, and immersive neon UI design, this project evolved from a simple Pokédex into an interactive Pokémon exploration platform featuring battle analysis, comparison systems, favorites persistence, responsive dual-panel layouts, and animated scanning interfaces.
 
 ---
 
-## 🔧 Getting Started
+# 🌐 Live Demo
+
+🔗 https://react-pokedex-app-sooty.vercel.app/
+
+---
+
+
+# 📸 Interface Preview
+
+## 🛰️ Cyberpunk Pokédex Scanner
+
+![Cyberpunk Pokédex Scanner](./client/public/Home-Page.png)
+
+---
+
+## ⚔️ Pokémon Battle Compare System
+
+![Battle Compare System](./client/public/Compare-Page.png)
+
+---
+
+## 📱 Responsive Mobile Pokédex
+
+![Responsive Mobile Pokédex](./client/public/Mobile-View.png)
+
+# ✨ Features
+
+## 🧠 Pokémon Analyzer System
+- Interactive Pokédex scanning interface
+- Animated Pokémon scan display
+- Dynamic Pokémon detail analysis
+- Training profile analysis
+- Threat level analysis
+- Battle style classification
+- Evolution chain navigation
+- Pokémon lore and habitat exploration
+
+---
+
+## ⚔️ Compare & Battle System
+- Side-by-side Pokémon comparison
+- Animated VS interface
+- Battle prediction engine
+- Type effectiveness analysis
+- Stat comparison highlighting
+- Searchable compare selectors
+- Type-themed compare cards
+
+---
+
+## ❤️ Favorites System
+- Add/remove favorites
+- PostgreSQL-backed favorites persistence
+- Favorites page with live updates
+- Backend API integration
+- Fullstack favorites architecture
+
+---
+
+## 🎨 UI / UX Features
+- Cyberpunk neon Pokédex redesign
+- NYC graffiti-inspired color styling
+- Responsive open Pokédex layout
+- Animated scan effects
+- Floating holographic Pokémon displays
+- Hardware-inspired control deck
+- Interactive hover animations
+- Light/Dark mode support
+- Accessibility improvements
+- Keyboard navigation support
+- Responsive mobile and tablet experience
+
+---
+
+# 🛠️ Tech Stack
+
+## Frontend
+- React
+- React Router
+- JavaScript
+- CSS
+- Vite
+
+## Backend
+- Node.js
+- Express
+- PostgreSQL
+
+## APIs & Deployment
+- PokéAPI
+- Vercel
+- Render
+
+---
+
+# 🧱 Architecture Overview
+
+The project uses a modular frontend architecture focused on reusable hooks, utility functions, and scalable component organization.
+
+## Key Architectural Patterns
+- Reusable custom hooks
+- Utility-driven analyzer logic
+- Component-based UI system
+- Dedicated style architecture
+- Responsive layout separation
+- Backend API integration
+- PostgreSQL persistence layer
+
+---
+
+# 🚀 Local Installation
+
+## Clone Repository
 
 ```bash
-# 1 | Create your project
-npm create vite@latest my-pokedex -- --template react
-cd my-pokedex
+git clone <your-repository-url>
+```
+
+---
+
+## Install Frontend Dependencies
+
+```bash
+cd client
 npm install
-
-# 2 | Fire it up
 npm run dev
-````
-
-> **Push to GitHub now** – commit early & often!
-
----
-
-## 🚦 Milestones
-
-| ID     | What to build                 | Hints                                                                                           |
-| ------ | ----------------------------- | ----------------------------------------------------------------------------------------------- |
-| **M0** | Project scaffolding on GitHub |  Keep `src/` tidy (components/, assets/, styles/).                                              |
-| **M1** | Pokémon list view             | Fetch `https://pokeapi.co/api/v2/pokemon?limit=151` on mount. Show loading + nice error UI.     |
-| **M2** | Detail view                   | Second fetch (`/pokemon/:id`) when a card is clicked. Modal, side‑panel, or route – you decide. |
-| **M3** | Custom styling                | Responsive layout, semantic HTML, keyboard‑friendly nav, NYC flair 🍕🗽.                        |
-| **M4** | Reflection log                | Answer the questions in **Reflection Prompts** below.                                           |
-
-### Stretch Goals (optional)
-
-* Live **search / filter** by name or type.
-* **Pagination / infinite scroll**.
-* **Favorites** saved to `localStorage`.
-* **React Router** multi‑page flow.
-* Global state with **Context API** or Redux.
-
----
-
-## 📁 File Checklist
-
-```
-my-pokedex/
-├─ public/
-│   └─ …
-├─ src/
-│   ├─ components/
-│   ├─ hooks/           # optional
-│   ├─ App.jsx
-│   ├─ index.css
-│   └─ index.jsx
-├─ README.md            # ← you’re here
-├─ REFLECTION.md        # ← your write‑up
-└─ package.json
 ```
 
 ---
 
-## 📝 Reflection Prompts (put in `REFLECTION.md`)
+## Install Backend Dependencies
 
-1. Where did you struggle the most?
-2. Step‑by‑step, how did you debug / research the solution?
-3. Did you peek at the “last‑resort” sample repo? If yes, **what exactly** did you learn and re‑implement?
-4. One improvement you’d tackle with more time.
-
----
-
-## 🗂 Resources (concept‑only)
-
-* React docs: [`useState`](https://react.dev/reference/react/useState) | [`useEffect`](https://react.dev/reference/react/useEffect) | **Thinking in Effects**
-* MDN: [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) & [Handling fetch errors](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#errors)
-* Course slide decks:
-
-  * *React Lifecycle & Hooks*
-  * *Intro to External API Requests*
-  * *Practical Promises*
-* PokeAPI docs: [https://pokeapi.co/docs/v2](https://pokeapi.co/docs/v2)
-
-*(Use the sample pens only for inspiration; do **not** copy markup or styles.)*
+```bash
+cd server
+npm install
+npm run dev
+```
 
 ---
 
-## 📤 Submission
+# 🔐 Planned Future Features
 
-1. **GitHub repo** with complete history.
-2. Deployed link (Netlify, Vercel, GH Pages…).
-3. `README.md` (this file) updated with screenshots/GIFs.
-4. `REFLECTION.md`.
-
----
-
-## 🏆 Rubric (20 pts)
-
-| Category                    | Pts | Criteria                                                                  |
-| --------------------------- | --- | ------------------------------------------------------------------------- |
-| Data fetch & error handling |  6  | Correct `useEffect`, robust error UI, no console warnings.                |
-| State & props flow          |  4  | Clean architecture, no redundant state, clear prop usage.                 |
-| UI/UX & accessibility       |  4  | Responsive design, alt text, keyboard nav works.                          |
-| Code quality                |  4  | Lint‑free, meaningful commits, descriptive names, comments where helpful. |
-| Reflection                  |  2  | Honest, specific, actionable insights.                                    |
+## Authentication & Security
+- User accounts
+- Secure login system
+- Password hashing with bcrypt
+- JWT authentication
+- Protected API routes
+- User-owned favorites
+- Secure environment variable management
 
 ---
 
-### 🗣 “Last‑Resort” Hint Protocol
-
-If stuck **after** pair‑discussion & debugging:
-
-1. Write down the blocker.
-2. Skim [https://github.com/hhassan1230/pokemonappttp2025](https://github.com/hhassan1230/pokemonappttp2025) just enough to spark understanding.
-3. Close it, implement on your own, document the takeaway in `REFLECTION.md`.
-
-Copy‑pasted code = **zero credit** – keep learning integrity high!
+## Pokémon Platform Expansion
+- Pokémon team builder
+- Saved battle history
+- Personal trainer dashboard
+- Pokémon notes/journal system
+- Radar stat visualization
+- Sound effects and battle audio
+- Expanded Pokémon generations
 
 ---
 
-Happy hacking & catch ’em all! 🗽⚡️
+# 🧠 What I Learned
+
+This project helped strengthen my understanding of:
+
+- Fullstack architecture
+- PostgreSQL integration
+- RESTful API development
+- React hooks and reusable logic
+- Component architecture
+- Responsive UI/UX design
+- Accessibility best practices
+- State management patterns
+- Animation and interaction design
+- API data transformation
+- The importance of scalable CSS organization
+
+It also pushed me creatively. Styling and UI/UX design have traditionally been weaker areas for me, so this project became an opportunity to learn how to leverage AI-assisted workflows to improve frontend creativity, interaction design, and user experience thinking.
+
+---
+
+# 🎨 Design Inspiration
+
+The cyberpunk redesign was inspired by:
+- futuristic Pokédex interfaces
+- neon cyberpunk aesthetics
+- NYC subway graffiti culture
+- holographic scanner systems
+
+One of my favorite parts of the project is the animated scanning interface and the interactive Pokémon cards that visually “lift” off the screen when selected.
+
+---
+
+# ⚔️ Biggest Challenge
+
+The Pokémon compare system was the most challenging part of the build because it required balancing:
+- technical architecture
+- reusable logic
+- UI creativity
+- animation coordination
+- responsive design
+
+Building the compare experience pushed me to think more deeply about frontend engineering and interaction design.
+
+---
+
+# 👩🏽‍💻 Developer
+
+Built by Jennifer Peterson
+
+Focused on:
+- Fullstack Development
+- Cybersecurity
+- Backend Engineering
+- Interactive UI Systems
+
+---
+
+© 2026 Jennifer Peterson • Built with React, PostgreSQL, PokéAPI, and futuristic Pokédex vibes ⚡

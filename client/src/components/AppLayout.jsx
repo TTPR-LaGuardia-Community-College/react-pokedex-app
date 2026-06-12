@@ -1,0 +1,106 @@
+import { Link, NavLink } from "react-router-dom";
+import TypingTitle from "./TypingTitle";
+import { useAuth } from "../context/auth/AuthContext";
+import pokeball from "../assets/pokeball.png";
+
+/*
+  🧱 AppLayout component
+
+  This creates the shared layout used across pages:
+  - top Pokéball bar
+  - left sidebar navigation
+  - main content area
+  - optional right sidebar
+*/
+function AppLayout({ children, rightSidebar, darkMode, setDarkMode }) {
+  const { user, logout } = useAuth();
+  return (
+    <div className={darkMode ? "app dark" : "app"}>
+      {/* 🔴🟡🟢 Shared top bar */}
+      <div className="pokedex-top">
+        <div className="lights">
+          <span className="light red"></span>
+          <span className="light yellow"></span>
+          <span className="light green"></span>
+        </div>
+        <div className="top-controls">
+          {/* POKEBALL TO HOMEPAGE NAVIGATION */}
+          <Link to="/" aria-label="Go to home page">
+            <img src={pokeball} alt="Pokéball" className="pokeball-logo" />
+          </Link>
+
+          {/* 🌙 Theme toggle */}
+          <button
+            className="top-theme-btn"
+            onClick={() => setDarkMode(!darkMode)}
+            aria-label="Toggle light and dark mode"
+          >
+            {darkMode ? "☀️" : "🌙"}
+          </button>
+
+          {/* 🔐 Authentication UI */}
+          <div className="auth-status">
+            {user ? (
+              <div className="auth-user-panel">
+                {/* 👤 Trainer dashboard link
+
+  Logged-in users can open
+  their future dashboard page. */}
+
+                <Link to="/dashboard" className="auth-username">
+                  {user.username}
+                </Link>
+
+                <button className="auth-btn" onClick={logout}>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="auth-btn">
+                Login
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="app-layout">
+        {/* LEFT SIDEBAR */}
+        <aside className="sidebar">
+          <TypingTitle />
+
+          <nav className="sidebar-nav" aria-label="Main navigation">
+            <NavLink to="/" className="sidebar-nav-link">
+              Home
+            </NavLink>
+
+            <NavLink to="/favorites" className="sidebar-nav-link">
+              Favorites
+            </NavLink>
+
+            <NavLink to="/compare" className="sidebar-nav-link">
+              Battle Arena
+            </NavLink>
+
+            <NavLink to="/training" className="sidebar-nav-link">
+              Training Grounds
+            </NavLink>
+          </nav>
+        </aside>
+
+        {/* MAIN PAGE CONTENT */}
+        <main className="main-content">{children}</main>
+
+        {/* RIGHT SIDEBAR */}
+        {rightSidebar && (
+          <aside className="right-sidebar">{rightSidebar}</aside>
+        )}
+      </div>
+      <footer className="app-footer">
+        © 2026 Jennifer Peterson • Built with React & PokéAPI ⚡
+      </footer>
+    </div>
+  );
+}
+
+export default AppLayout;
